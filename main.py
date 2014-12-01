@@ -4,12 +4,11 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from lib.helpers import hash
 import praw
 import json
-import pprint
 
 app = Flask(__name__)
 app.debug = True
 #app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-db = SQLAlchemy(app)
+#db = SQLAlchemy(app)
 
 
 @app.route('/')
@@ -19,10 +18,9 @@ def hello():
 #Specify the type of request this route will accept
 @app.route('/gifs', methods=['GET'])
 def get_top_gifs():
-	#gif_titles = []
-	#if_urls = []
 	r = praw.Reddit(user_agent='GiffyLoop by /u/dcordoba')
-	submissions = r.get_subreddit('gifs').get_hot(limit=20)
+	query = 'url:gif'
+	submissions = r.search(query=query, subreddit='funny', sort='hot', period='day', limit=100)
 	gifs = []
 	for submission in submissions:
 		gif_obj = {
