@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+        <script>
+            $(function() {
+
+                var topGifs = [];
+
+                $.getJSON( "/gifs", function( data ) {
+                    topGifs = data.gifs;
+                });                    
+
+                $('.show-img-button').click(function() {
+                    var gif = _.sample(topGifs);
+
+                    // Display img in img-container
+                    $('.img-container').html('<img src="' + gif.url + '"/>');                    
+                });
+
+                // var displayBestGif = function() {
+                //     $.getJSON( "/gifs", function( data ) {
+                //         // Get URL To Display
+                //         // Response will look like:
+                        
+                //             {
+                //               'gifs': [
+                //                 {
+                //                     'title': 'Some title',
+                //                     'url': 'http://imgur.com/asdf.gif'
+                //                 },
+                //                 ...
+                //               ]
+                //             }
+                        
+                //         var gifs = data.gifs;
+                //         var gifToDisplay = gifs[0];
+                //         var url = gifToDisplay.url;
+                       
+                //         // Display img in img-container
+                //         $('.img-container').html('<img src="' + url + '"/>');
+                //     });
+                // };
+
+            });
+        </script>
+    </head>
+    <body>
+        <div class="img-container">
+        </div>
+        <button class="show-img-button">Show Image</button>
+    </body>
+</html>
