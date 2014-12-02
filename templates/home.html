@@ -12,6 +12,9 @@
 
                 $.getJSON( "/gifs", function( data ) {
                     topGifs = data.gifs;
+                    setTimeout(function(){
+                        addToDom(topGifs, index);
+                    }, 3000);
                 });     
    
                 var addToDom = function(topGifs, index) {
@@ -30,7 +33,7 @@
                             index = 0;
                         }
                     }
-                    window.setInterval(addGif, 5000)
+                    window.setInterval(addGif, 15000)
                 };
 
                 startGifs();
