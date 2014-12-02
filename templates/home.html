@@ -4,19 +4,44 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
         <script>
             $(function() {
+                $('.img-container').html('<iframe src="//giphy.com/embed/M6hgceLnI2uJi" width="480" height="384" frameBorder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
+                $('.title-container').html('<h2>What is on TV?</h2>');
 
                 var topGifs = [];
+                var index = 0;
 
                 $.getJSON( "/gifs", function( data ) {
                     topGifs = data.gifs;
-                });                    
+                });     
+   
+                var addToDom = function(topGifs, index) {
+                    var gif = topGifs[index];
+                    $('.img-container').html('<img src="' + gif.url + '"/>');
+                    $('.title-container').html('<div>' + gif.title + '</div>');
+                }; 
 
-                $('.show-img-button').click(function() {
-                    var gif = _.sample(topGifs);
+                function startGifs() {
+                    function addGif() {
+                        if (index < topGifs.length) {
+                            index += 1;
+                            addToDom(topGifs, index);
+                        }
+                        else {
+                            index = 0;
+                        }
+                    }
+                    window.setInterval(addGif, 5000)
+                };
 
-                    // Display img in img-container
-                    $('.img-container').html('<img src="' + gif.url + '"/>');                    
-                });
+                startGifs();
+
+           
+                     
+
+                // $('.show-img-button').click(function() {
+                //     index += 1;
+                //     addToDom(topGifs, index);                 
+                // });
 
                 // var displayBestGif = function() {
                 //     $.getJSON( "/gifs", function( data ) {
@@ -46,8 +71,11 @@
         </script>
     </head>
     <body>
-        <div class="img-container">
+        
+        <div class="img-container" style="vertical-align: middle; position: fixed; top: 100px; border: 70px solid black;">
         </div>
-        <button class="show-img-button">Show Image</button>
+     
+        <h2 class="title-container">
+        </h2>
     </body>
 </html>
